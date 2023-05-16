@@ -1,12 +1,12 @@
 package com.ssafy.plan.model.dto;
 
 public class PlanDto {
-	private int plan_id;
-	private String member_id;
-	private String plan_title;
-	private String start_date;
-	private String end_date;
-	private String plan_description;
+	private int planId;
+	private String memberId;
+	private String planTitle;
+	private String startDate;
+	private String endDate;
+	private String planDescription;
 	private int hit;
 	
 	public int getHit() {
@@ -16,54 +16,54 @@ public class PlanDto {
 		this.hit = hit;
 	}
 	public int getPlan_id() {
-		return plan_id;
+		return planId;
 	}
 	public void setPlan_id(int plan_id) {
-		this.plan_id = plan_id;
+		this.planId = plan_id;
 	}
 	public String getMember_id() {
-		return member_id;
+		return memberId;
 	}
 	public void setMember_id(String member_id) {
-		this.member_id = member_id;
+		this.memberId = member_id;
 	}
 	public String getPlan_title() {
-		return plan_title;
+		return planTitle;
 	}
 	public void setPlan_title(String plan_title) {
-		this.plan_title = plan_title;
+		this.planTitle = plan_title;
 	}
 	public String getStart_date() {
-		return start_date;
+		return startDate;
 	}
 	public void setStart_date(String start_date) {
-		this.start_date = start_date;
+		this.startDate = start_date;
 	}
 	public String getEnd_date() {
-		return end_date;
+		return endDate;
 	}
 	public void setEnd_date(String end_date) {
-		this.end_date = end_date;
+		this.endDate = end_date;
 	}
 	public String getPlan_description() {
-		return plan_description;
+		return planDescription;
 	}
 	public void setPlan_description(String plan_description) {
-		this.plan_description = plan_description;
+		this.planDescription = plan_description;
 	}
 	
 	public PlanDto() {}
-	public PlanDto(int plan_id, String member_id, String plan_title, String start_date, String end_date,
-			String plan_description, int hit) {
-		this.plan_id = plan_id;
-		this.member_id = member_id;
-		this.plan_title = plan_title;
-		this.start_date = start_date;
-		this.end_date = end_date;
-		this.plan_description = plan_description;
+	public PlanDto(int planId, String memberId, String planTitle, String startDate, String endDate,
+			String planDescription, int hit) {
+		super();
+		this.planId = planId;
+		this.memberId = memberId;
+		this.planTitle = planTitle;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.planDescription = planDescription;
 		this.hit = hit;
 	}
-	
 	
 	
 }

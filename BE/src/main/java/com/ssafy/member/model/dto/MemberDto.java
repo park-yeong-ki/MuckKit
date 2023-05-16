@@ -1,12 +1,33 @@
 package com.ssafy.member.model.dto;
 
+import java.util.List;
+
 public class MemberDto {
 	private String memberId;
 	private String memberName;
 	private String memberPw;
 	private String memberPhone;
 	private String memberRole;
+	private List<String> heartList;
+
+	public MemberDto() {}
 	
+	public MemberDto(String memberId, String memberName, String memberPw, String memberPhone, String memberRole,
+			List<String> heartList) {
+		super();
+		this.memberId = memberId;
+		this.memberName = memberName;
+		this.memberPw = memberPw;
+		this.memberPhone = memberPhone;
+		this.memberRole = memberRole;
+		this.heartList = heartList;
+	}
+	public List<String> getHeartList() {
+		return heartList;
+	}
+	public void setHeartList(List<String> heartList) {
+		this.heartList = heartList;
+	}
 	public String getMemberId() {
 		return memberId;
 	}

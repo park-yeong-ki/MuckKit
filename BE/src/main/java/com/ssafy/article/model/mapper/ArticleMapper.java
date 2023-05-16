@@ -14,7 +14,7 @@ public interface ArticleMapper {
 
 	ArticleDto read(int articleId);
 
-	List<ArticleDto> readAll(@Param("category") int category, @Param("sort")String sort);
+	List<ArticleDto> readAll(@Param("category")int category, @Param("sort")String sort);
 
 	int update(ArticleDto articleDto);
 

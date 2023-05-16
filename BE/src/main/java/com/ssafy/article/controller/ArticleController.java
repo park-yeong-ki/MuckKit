@@ -1,6 +1,7 @@
 package com.ssafy.article.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,7 @@ public class ArticleController {
 	// 전체조회(공지(=2), 일반 게시글(=1) 카테고리 번호로 구분)
 	@GetMapping
 	public ResponseEntity<?> readList(@RequestParam("category") int category, @RequestParam("sort") String sort) {
-//		HashMap<String, Object> hm = new HashMap<String, Object>();
+//		List<ArticleDto> boards = ;
 		
 		return new ResponseEntity<>(service.selectAll(category, sort), HttpStatus.OK);
 	}

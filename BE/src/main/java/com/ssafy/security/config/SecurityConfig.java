@@ -26,8 +26,10 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable()
 			.authorizeRequests()
-			.antMatchers("/member/join", "/member/login").permitAll()
-			.anyRequest().authenticated()
+//			.antMatchers("/member/join", "/member/login").permitAll()
+//			.anyRequest().authenticated()
+			// 인증 잠깐 멈춰놓음
+			.anyRequest().permitAll()
 			.and()
 			.addFilterBefore(new JwtAuthenticationFilter(jwtProvider, memberDetailsService), UsernamePasswordAuthenticationFilter.class);
 			
