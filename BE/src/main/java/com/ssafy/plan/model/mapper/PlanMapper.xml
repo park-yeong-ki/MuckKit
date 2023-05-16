@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.plan.model.mapper.PlanMapper">
+
+	<select id="read" parameterType="int"
+		resultType="com.ssafy.plan.model.dto.PlanDto">
+		select member_id, plan_title, start_date, end_date,
+		plan_description, hit
+		from plan 
+		where plan_id=#{plan_id};
+	</select>
+
+	<select id="readAll"
+		resultType="com.ssafy.plan.model.dto.PlanDto">
+		select member_id, plan_title, start_date, end_date,
+		plan_description, hit
+		from plan
+		order by hit DESC;
+	</select>
+
+
+	<update id="update"
+		parameterType="com.ssafy.plan.model.dto.PlanDto">
+		update plan
+		set plan_title=#{plan_title}, start_date=#{start_date},
+		end_date=#{end_date}, plan_description=#{plan_description}
+		where plan_id = plan_id;
+	</update>
+
+	<update id="updateHit" parameterType="int">
+		update plan
+		set hit = hit
+		+ 1
+		where plan_id = #{plan_id}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		delete from plan
+		where
+		plan_id =
+		#{plan_id};
+	</delete>
+
+	<insert id="insert"
+		parameterType="com.ssafy.plan.model.dto.PlanDto">
+		insert into plan( member_id, plan_title, start_date,
+		end_date, plan_description)
+		values( #{member_id}, #{plan_title},
+		#{start_date}, #{end_date}, #{plan_description});
+	</insert>
+
+</mapper>

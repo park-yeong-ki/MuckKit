@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.article.model.mapper.ArticleMapper">
+
+	<insert id="createArticle" parameterType="com.ssafy.article.model.dto.ArticleDto">
+		insert into article( article_title, article_content, article_writer, article_type)
+		values( #{article_title}, #{article_content}, #{article_writer}, 1);
+	</insert>
+	
+	<insert id="createNotice" parameterType="com.ssafy.article.model.dto.ArticleDto">
+		insert into article( article_title, article_content, article_writer, article_type)
+		values( #{article_title}, #{article_content}, #{article_writer}, 2);
+	</insert>
+	
+	<select id="read" parameterType="int" resultType="com.ssafy.article.model.dto.ArticleDto">
+		select article_id, article_title, article_content, created_time, article_writer, hit
+		from article
+		where article_id = #{article_id};
+	</select>
+	
+	<select id="readAll" resultType="com.ssafy.article.model.dto.ArticleDto">
+		select article_title, article_content, created_time, article_writer, hit
+		from article
+		where article_type=#{category}
+		order by #{sort};
+	</select>
+	
+	<update id="update" parameterType="com.ssafy.article.model.dto.ArticleDto">
+		update article
+		set article_title=#{article_title}, article_content=#{article_content}, article_writer=#{article_writer}, article_type=#{article_type}
+		where article_id = #{article_id};
+	</update>
+	
+	<update id="updateHit" parameterType="int">
+		update article
+		set hit = hit + 1
+		where article_id = #{article_id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from article
+		where article_id = #{article_id};
+	</delete>
+</mapper>
