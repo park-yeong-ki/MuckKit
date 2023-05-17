@@ -3,7 +3,7 @@ package com.ssafy.article.model.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.repository.query.Param;
+import org.apache.ibatis.annotations.Param;
 
 import com.ssafy.article.model.dto.ArticleDto;
 
@@ -24,4 +24,13 @@ public interface ArticleMapper {
 
 	void updateHit(int articleId);
 
+	List<ArticleDto> readMyArticle(String memberId);
+	
+	List<ArticleDto> readMyHeart(String memberId);
+	
+	String getArticleHeart(@Param("memberId")String memberId, @Param("articleId")int articleId);
+	
+	int createHeart(@Param("memberId")String memberId, @Param("articleId")int articleId);
+	
+	int deleteHeart(@Param("memberId")String memberId, @Param("articleId")int articleId);
 }

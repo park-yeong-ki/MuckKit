@@ -50,4 +50,24 @@ public class ArticleService {
 		mapper.updateHit(articleId);
 	}
 	
+	//회원 작성 목록 조회
+	public List<ArticleDto> selectMyArticle(String memberId) {
+		return mapper.readMyArticle(memberId);
+	}
+	
+	//회원이 좋아요한 게시글 조회
+	public List<ArticleDto> selectMyHeart(String memberId){
+		return mapper.readMyHeart(memberId);
+	}
+	
+	//게시글 좋아요 누르기
+	public int pressHeart(String memberId, int articleId) {
+		String result = mapper.getArticleHeart(memberId, articleId);
+		
+		if (result == null) { //하트를 누르지 않은 경우
+			return mapper.createHeart(memberId, articleId);
+		} else { //이미 하트를 누른 경우
+			return mapper.deleteHeart(memberId, articleId);
+		}
+	}
 }

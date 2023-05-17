@@ -4,20 +4,23 @@
 
 	<select id="read" parameterType="int"
 		resultType="com.ssafy.plan.model.dto.PlanDto">
-		select member_id, plan_title, start_date, end_date,
-		plan_description, hit
-		from plan 
-		where plan_id=#{plan_id};
+		select p.plan_id as planId, p.member_id as memberId, plan_title as planTitle, start_date as startDate, end_date as endDate,
+		plan_description as planDescription, hit, count(ph.plan_id) as planHeart
+		from plan p left join plan_heart ph
+		on p.plan_id = ph.plan_id
+		where p.plan_id=#{plan_id}
+		group by p.plan_id;
 	</select>
 
 	<select id="readAll"
 		resultType="com.ssafy.plan.model.dto.PlanDto">
-		select member_id, plan_title, start_date, end_date,
-		plan_description, hit
-		from plan
+		select p.plan_id as planId, p.member_id as memberId, plan_title as planTitle, start_date as startDate, end_date as endDate,
+		plan_description as planDescription, hit, count(ph.plan_id) as planHeart
+		from plan p left join plan_heart ph
+		on p.plan_id = ph.plan_id
+		group by p.plan_id
 		order by hit DESC;
 	</select>
-
 
 	<update id="update"
 		parameterType="com.ssafy.plan.model.dto.PlanDto">
@@ -49,4 +52,37 @@
 		#{start_date}, #{end_date}, #{plan_description});
 	</insert>
 
+	<select id="readMyPlan" resultType="com.ssafy.plan.model.dto.PlanDto">
+		select p.plan_id as planId, p.member_id as memberId, plan_title as planTitle, start_date as startDate, end_date as endDate,
+		plan_description as planDescription, hit, count(ph.plan_id) as planHeart
+		from plan p left join plan_heart ph
+		on p.plan_id = ph.plan_id
+		where p.member_id=#{memberId}
+		group by p.plan_id;
+	</select>
+	
+	<select id="readMyHeart" resultType="com.ssafy.plan.model.dto.PlanDto">
+		select p.plan_id as planId, p.member_id as memberId, plan_title as planTitle, start_date as startDate, end_date as endDate,
+		plan_description as planDescription, hit, count(ph.plan_id) as planHeart
+		from plan p left join plan_heart ph
+		on p.plan_id = ph.plan_id
+		where p.plan_id in (select plan_id from plan_heart where member_id=#{memberId})
+		group by p.plan_id;
+	</select>
+	
+	<select id="getPlanHeart" resultType="String">
+		select heart_id 
+		from plan_heart
+		where member_id=#{memberId} and plan_id=#{planId};
+	</select>
+	
+	<insert id="createHeart">
+		insert into plan_heart(member_id, plan_id) 
+		values(#{memberId}, #{planId});
+	</insert>
+	
+	<delete id="deleteHeart">
+		delete from plan_heart
+		where member_id=#{memberId} and plan_id=#{planId};
+	</delete>
 </mapper>

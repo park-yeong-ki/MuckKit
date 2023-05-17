@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ssafy.article.model.service.ArticleService;
 import com.ssafy.member.model.dto.MemberDto;
 import com.ssafy.member.model.service.MemberService;
+import com.ssafy.plan.model.service.PlanService;
 import com.ssafy.security.auth.JwtProvider;
 import com.ssafy.security.auth.MemberDetails;
 import com.ssafy.security.auth.TokenResponse;
@@ -31,10 +33,15 @@ import com.ssafy.security.auth.TokenResponse;
 public class MemberController {
 	private final MemberService memberService;
 	private final JwtProvider jwtProvider;
+	private final ArticleService articleService;
+	private final PlanService planService;
 
-	public MemberController(MemberService memberService, JwtProvider jwtProvider) {
+	public MemberController(MemberService memberService, JwtProvider jwtProvider, ArticleService articleService,
+			PlanService planService) {
 		this.memberService = memberService;
 		this.jwtProvider = jwtProvider;
+		this.articleService = articleService;
+		this.planService = planService;
 	}
 
 	// 회원 정보 가입
@@ -53,6 +60,10 @@ public class MemberController {
 		if (memberDetails.getMember().getMemberId().equals(memberId)) {
 			MemberDto memberDto = memberService.selectOne(memberId);
 			if (memberDto != null) {
+				memberDto.setArticleList(articleService.selectMyArticle(memberId));
+				memberDto.setHeartArticleList(articleService.selectMyHeart(memberId));
+				memberDto.setPlanList(planService.selectMyPlan(memberId));
+				memberDto.setHeartPlanList(planService.selectMyHeart(memberId));
 				return new ResponseEntity<>(memberDto, HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

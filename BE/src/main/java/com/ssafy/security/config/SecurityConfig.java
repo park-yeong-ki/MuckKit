@@ -2,6 +2,7 @@ package com.ssafy.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -26,10 +27,11 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable()
 			.authorizeRequests()
-//			.antMatchers("/member/join", "/member/login").permitAll()
-//			.anyRequest().authenticated()
+			.antMatchers(HttpMethod.POST,"/member/join", "/member/login").permitAll()
+			.antMatchers(HttpMethod.GET, "/article/{article_id}", "/article", "/plan/{plan_id}", "/plan").permitAll()
+			.anyRequest().authenticated()
 			// 인증 잠깐 멈춰놓음
-			.anyRequest().permitAll()
+//			.anyRequest().permitAll()
 			.and()
 			.addFilterBefore(new JwtAuthenticationFilter(jwtProvider, memberDetailsService), UsernamePasswordAuthenticationFilter.class);
 			

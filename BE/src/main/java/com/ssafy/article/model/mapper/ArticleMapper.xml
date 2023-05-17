@@ -20,11 +20,12 @@
 
 	<select id="read" parameterType="int"
 		resultType="com.ssafy.article.model.dto.ArticleDto">
-		select article_id, article_title, article_content,
-		created_time, article_writer, hit
-		from article
-		where article_id =
-		#{article_id};
+		select a.article_id, article_title, article_content, created_time,
+		article_writer, article_type, hit, count(ah.article_id) as article_heart
+		from article a left join article_heart ah
+		on a.article_id = ah.article_id
+		where a.article_id = #{article_id}
+		GROUP BY a.article_id;
 	</select>
 
 
@@ -36,7 +37,7 @@
 		on a.article_id = ah.article_id
 		GROUP BY a.article_id
 		HAVING article_type = #{param1}
-		order by #{param2};
+		order by #{param2} desc;
 	</select>
 
 	<update id="update"
@@ -59,5 +60,39 @@
 		delete from article
 		where
 		article_id = #{article_id};
+	</delete>
+	
+	<select id="readMyArticle" resultType="com.ssafy.article.model.dto.ArticleDto">
+		select a.article_id, article_title, article_content, created_time,
+		article_writer, article_type, hit, count(ah.article_id) as article_heart
+		from article a left join article_heart ah
+		on a.article_id = ah.article_id
+		where a.article_writer = #{memberId}
+		GROUP BY a.article_id;
+	</select>
+	
+	<select id="readMyHeart" resultType="com.ssafy.article.model.dto.ArticleDto">
+		select a.article_id, article_title, article_content, created_time,
+		article_writer, article_type, hit, count(ah.article_id) as article_heart
+		from article a left join article_heart ah
+		on a.article_id = ah.article_id
+		where a.article_id in (select article_id from article_heart where member_id=#{memberId})
+		GROUP BY a.article_id;
+	</select>
+	
+	<select id="getArticleHeart" resultType="String">
+		select heart_id 
+		from article_heart
+		where member_id=#{memberId} and article_id=#{articleId};
+	</select>
+	
+	<insert id="createHeart">
+		insert into article_heart(member_id, article_id) 
+		values(#{memberId}, #{articleId});
+	</insert>
+	
+	<delete id="deleteHeart">
+		delete from article_heart
+		where member_id=#{memberId} and article_id=#{articleId};
 	</delete>
 </mapper>
