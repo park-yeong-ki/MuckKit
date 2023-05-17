@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.article.model.service.ArticleService;
+import com.ssafy.comment.model.service.CommentService;
 import com.ssafy.member.model.dto.MemberDto;
 import com.ssafy.member.model.service.MemberService;
 import com.ssafy.plan.model.service.PlanService;
@@ -35,13 +36,16 @@ public class MemberController {
 	private final JwtProvider jwtProvider;
 	private final ArticleService articleService;
 	private final PlanService planService;
+	private final CommentService commentService;
 
 	public MemberController(MemberService memberService, JwtProvider jwtProvider, ArticleService articleService,
-			PlanService planService) {
+			PlanService planService, CommentService commentService) {
+		super();
 		this.memberService = memberService;
 		this.jwtProvider = jwtProvider;
 		this.articleService = articleService;
 		this.planService = planService;
+		this.commentService = commentService;
 	}
 
 	// 회원 정보 가입
@@ -64,6 +68,7 @@ public class MemberController {
 				memberDto.setHeartArticleList(articleService.selectMyHeart(memberId));
 				memberDto.setPlanList(planService.selectMyPlan(memberId));
 				memberDto.setHeartPlanList(planService.selectMyHeart(memberId));
+				memberDto.setCommentsList(commentService.selectMyComments(memberId));
 				return new ResponseEntity<>(memberDto, HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

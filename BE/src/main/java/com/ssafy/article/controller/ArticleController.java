@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.article.model.dto.ArticleDto;
 import com.ssafy.article.model.service.ArticleService;
+import com.ssafy.comment.model.service.CommentService;
 import com.ssafy.member.model.dto.MemberDto;
 import com.ssafy.security.auth.MemberDetails;
 
@@ -26,9 +27,11 @@ import com.ssafy.security.auth.MemberDetails;
 @RequestMapping("article")
 public class ArticleController {
 	private ArticleService service;
+	private CommentService commentService;
 
-	public ArticleController(ArticleService service) {
+	public ArticleController(ArticleService service, CommentService commentService) {
 		this.service = service;
+		this.commentService = commentService;
 	}
 
 	// 게시글 상세조회
@@ -36,6 +39,7 @@ public class ArticleController {
 	public ResponseEntity<?> read(@PathVariable("article_id") int articleId) {
 		ArticleDto articleDto = service.selectOne(articleId);
 		if (articleDto != null) {
+			articleDto.setComments(commentService.selectComments(articleDto.getArticle_id()));
 			service.updateHit(articleId);
 			return new ResponseEntity<>(articleDto, HttpStatus.OK);
 		} else {
