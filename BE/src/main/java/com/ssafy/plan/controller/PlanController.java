@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.attraction.model.service.AttractionService;
 import com.ssafy.member.model.dto.MemberDto;
 import com.ssafy.plan.model.dto.PlanDto;
 import com.ssafy.plan.model.service.PlanService;
@@ -21,11 +22,13 @@ import com.ssafy.security.auth.MemberDetails;
 @RequestMapping("plan")
 public class PlanController {
 	private PlanService service;
-	
-	public PlanController(PlanService service) {
+	private AttractionService attractionService;
+		
+	public PlanController(PlanService service, AttractionService attractionService) {
 		this.service = service;
+		this.attractionService = attractionService;
 	}
-	
+
 	// 플랜 전체 조회
 	@GetMapping
 	public ResponseEntity<?> readPlan(){
@@ -38,6 +41,7 @@ public class PlanController {
 		PlanDto dto = service.select(plan_id);
 		if(dto != null) {
 			service.updateHit(plan_id);
+			dto.setAttractions(attractionService.selectByPlanId(plan_id));
 			return new ResponseEntity<> (dto, HttpStatus.CREATED);
 		}
 		else {
@@ -56,7 +60,6 @@ public class PlanController {
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
 	}
 	
 	// 플랜 수정

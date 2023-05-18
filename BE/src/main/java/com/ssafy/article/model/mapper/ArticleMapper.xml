@@ -5,9 +5,9 @@
 	<insert id="createArticle"
 		parameterType="com.ssafy.article.model.dto.ArticleDto">
 		insert into article( article_title, article_content,
-		article_writer, article_type)
+		article_writer, article_type, plan_id)
 		values( #{article_title},
-		#{article_content}, #{article_writer}, 1);
+		#{article_content}, #{article_writer}, 1, #{planId});
 	</insert>
 
 	<insert id="createNotice"
@@ -45,7 +45,7 @@
 		update article
 		set article_title=#{article_title},
 		article_content=#{article_content}, article_writer=#{article_writer},
-		article_type=#{article_type}
+		article_type=#{article_type}, plan_id=#{planId}
 		where article_id = #{article_id};
 	</update>
 

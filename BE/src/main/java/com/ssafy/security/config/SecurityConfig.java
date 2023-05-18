@@ -28,7 +28,7 @@ public class SecurityConfig {
 		http.cors().and().csrf().disable()
 			.authorizeRequests()
 			.antMatchers(HttpMethod.POST,"/member/join", "/member/login").permitAll()
-			.antMatchers(HttpMethod.GET, "/article/{article_id}", "/article", "/plan/{plan_id}", "/plan").permitAll()
+			.antMatchers(HttpMethod.GET, "/article/{article_id}", "/article", "/plan/{plan_id}", "/plan", "/attraction", "/attraction/{content-id}").permitAll()
 			.anyRequest().authenticated()
 			// 인증 잠깐 멈춰놓음
 //			.anyRequest().permitAll()

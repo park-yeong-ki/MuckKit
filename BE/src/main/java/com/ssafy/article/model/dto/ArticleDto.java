@@ -3,6 +3,7 @@ package com.ssafy.article.model.dto;
 import java.util.List;
 
 import com.ssafy.comment.model.dto.CommentDto;
+import com.ssafy.plan.model.dto.PlanDto;
 
 public class ArticleDto {
 	private int articleId;
@@ -12,13 +13,16 @@ public class ArticleDto {
 	private String articleWriter;
 	private int articleType;
 	private int hit;
+	private int planId;
 	private int articleHeart;
 	private List<CommentDto> comments;
+	private PlanDto plan;
 	
 	public ArticleDto() {}
-	
+
 	public ArticleDto(int articleId, String articleTitle, String articleContent, String createdTime,
-			String articleWriter, int articleType, int hit, int articleHeart, List<CommentDto> comments) {
+			String articleWriter, int articleType, int hit, int planId, int articleHeart, List<CommentDto> comments,
+			PlanDto plan) {
 		super();
 		this.articleId = articleId;
 		this.articleTitle = articleTitle;
@@ -27,8 +31,10 @@ public class ArticleDto {
 		this.articleWriter = articleWriter;
 		this.articleType = articleType;
 		this.hit = hit;
+		this.planId = planId;
 		this.articleHeart = articleHeart;
 		this.comments = comments;
+		this.plan = plan;
 	}
 
 	public int getArticle_heart() {
@@ -103,6 +109,20 @@ public class ArticleDto {
 	public void setComments(List<CommentDto> comments) {
 		this.comments = comments;
 	}
-	
-	
+
+	public int getPlanId() {
+		return planId;
+	}
+
+	public void setPlanId(int planId) {
+		this.planId = planId;
+	}
+
+	public PlanDto getPlan() {
+		return plan;
+	}
+
+	public void setPlan(PlanDto plan) {
+		this.plan = plan;
+	}
 }

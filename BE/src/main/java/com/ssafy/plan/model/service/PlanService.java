@@ -3,8 +3,10 @@ package com.ssafy.plan.model.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.article.model.dto.ArticleDto;
+import com.ssafy.attraction.model.dto.AttractionDto;
 import com.ssafy.plan.model.dto.PlanDto;
 import com.ssafy.plan.model.mapper.PlanMapper;
 
@@ -42,9 +44,13 @@ public class PlanService {
 		
 	}
 
-
+	@Transactional
 	public int write(PlanDto dto) {
-		return mapper.insert(dto);
+		int result = mapper.insert(dto);
+		for (AttractionDto aDto : dto.getAttractions()) {
+			mapper.createPlanAttraction(dto.getPlanId(), aDto.getContentId());
+		}	
+		return result;
 	}
 	
 	//내가 작성한 여행계획리스트 불러오기

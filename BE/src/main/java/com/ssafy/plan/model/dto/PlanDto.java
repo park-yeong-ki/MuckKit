@@ -1,5 +1,9 @@
 package com.ssafy.plan.model.dto;
 
+import java.util.List;
+
+import com.ssafy.attraction.model.dto.AttractionDto;
+
 public class PlanDto {
 	private int planId;
 	private String memberId;
@@ -9,11 +13,12 @@ public class PlanDto {
 	private String planDescription;
 	private int hit;
 	private int planHeart;
+	private List<AttractionDto> attractions;
 	
 	public PlanDto() {}
 
 	public PlanDto(int planId, String memberId, String planTitle, String startDate, String endDate,
-			String planDescription, int hit, int planHeart) {
+			String planDescription, int hit, int planHeart, List<AttractionDto> attractions) {
 		super();
 		this.planId = planId;
 		this.memberId = memberId;
@@ -23,6 +28,7 @@ public class PlanDto {
 		this.planDescription = planDescription;
 		this.hit = hit;
 		this.planHeart = planHeart;
+		this.attractions = attractions;
 	}
 
 	public int getPlanId() {
@@ -87,5 +93,14 @@ public class PlanDto {
 
 	public void setPlanHeart(int planHeart) {
 		this.planHeart = planHeart;
+	}
+
+	public List<AttractionDto> getAttractions() {
+		return attractions;
+	}
+
+	public void setAttractions(List<AttractionDto> attractions) {
+		this.attractions = attractions;
 	}	
+	
 }

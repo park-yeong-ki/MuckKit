@@ -32,4 +32,6 @@ public interface PlanMapper {
 	int createHeart(@Param("memberId")String memberId, @Param("planId")int planId);
 	
 	int deleteHeart(@Param("memberId")String memberId, @Param("planId")int planId);
+	
+	int createPlanAttraction(@Param("planId")int planId, @Param("contentId")int contentId);
 }

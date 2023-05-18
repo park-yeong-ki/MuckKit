@@ -85,4 +85,9 @@
 		delete from plan_heart
 		where member_id=#{memberId} and plan_id=#{planId};
 	</delete>
+	
+	<insert id="createPlanAttraction">
+		insert into plan_attraction(plan_id, content_id)
+		values(#{planId}, #{contentId});
+	</insert>
 </mapper>
