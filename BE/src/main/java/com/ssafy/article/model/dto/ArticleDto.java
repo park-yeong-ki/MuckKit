@@ -11,7 +11,6 @@ public class ArticleDto {
 	private String articleContent;
 	private String createdTime;
 	private String articleWriter;
-	private int articleType;
 	private int hit;
 	private int planId;
 	private int articleHeart;
@@ -21,15 +20,13 @@ public class ArticleDto {
 	public ArticleDto() {}
 
 	public ArticleDto(int articleId, String articleTitle, String articleContent, String createdTime,
-			String articleWriter, int articleType, int hit, int planId, int articleHeart, List<CommentDto> comments,
-			PlanDto plan) {
+			String articleWriter, int hit, int planId, int articleHeart, List<CommentDto> comments, PlanDto plan) {
 		super();
 		this.articleId = articleId;
 		this.articleTitle = articleTitle;
 		this.articleContent = articleContent;
 		this.createdTime = createdTime;
 		this.articleWriter = articleWriter;
-		this.articleType = articleType;
 		this.hit = hit;
 		this.planId = planId;
 		this.articleHeart = articleHeart;
@@ -37,12 +34,44 @@ public class ArticleDto {
 		this.plan = plan;
 	}
 
-	public int getArticle_heart() {
-		return articleHeart;
+	public int getArticleId() {
+		return articleId;
 	}
 
-	public void setArticle_heart(int article_heart) {
-		this.articleHeart = article_heart;
+	public void setArticleId(int articleId) {
+		this.articleId = articleId;
+	}
+
+	public String getArticleTitle() {
+		return articleTitle;
+	}
+
+	public void setArticleTitle(String articleTitle) {
+		this.articleTitle = articleTitle;
+	}
+
+	public String getArticleContent() {
+		return articleContent;
+	}
+
+	public void setArticleContent(String articleContent) {
+		this.articleContent = articleContent;
+	}
+
+	public String getCreatedTime() {
+		return createdTime;
+	}
+
+	public void setCreatedTime(String createdTime) {
+		this.createdTime = createdTime;
+	}
+
+	public String getArticleWriter() {
+		return articleWriter;
+	}
+
+	public void setArticleWriter(String articleWriter) {
+		this.articleWriter = articleWriter;
 	}
 
 	public int getHit() {
@@ -53,53 +82,20 @@ public class ArticleDto {
 		this.hit = hit;
 	}
 
-
-	public int getArticle_id() {
-		return articleId;
+	public int getPlanId() {
+		return planId;
 	}
 
-	public void setArticle_id(int article_id) {
-		this.articleId = article_id;
+	public void setPlanId(int planId) {
+		this.planId = planId;
 	}
 
-	public String getArticle_title() {
-		return articleTitle;
+	public int getArticleHeart() {
+		return articleHeart;
 	}
 
-	public void setArticle_title(String article_title) {
-		this.articleTitle = article_title;
-	}
-
-	public String getArticle_content() {
-		return articleContent;
-	}
-
-	public void setArticle_content(String article_content) {
-		this.articleContent = article_content;
-	}
-
-	public String getCreated_time() {
-		return createdTime;
-	}
-
-	public void setCreated_time(String created_time) {
-		this.createdTime = created_time;
-	}
-
-	public String getArticle_writer() {
-		return articleWriter;
-	}
-
-	public void setArticle_writer(String article_writer) {
-		this.articleWriter = article_writer;
-	}
-
-	public int getArticle_type() {
-		return articleType;
-	}
-
-	public void setArticle_type(int article_type) {
-		this.articleType = article_type;
+	public void setArticleHeart(int articleHeart) {
+		this.articleHeart = articleHeart;
 	}
 
 	public List<CommentDto> getComments() {
@@ -108,14 +104,6 @@ public class ArticleDto {
 
 	public void setComments(List<CommentDto> comments) {
 		this.comments = comments;
-	}
-
-	public int getPlanId() {
-		return planId;
-	}
-
-	public void setPlanId(int planId) {
-		this.planId = planId;
 	}
 
 	public PlanDto getPlan() {

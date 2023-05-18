@@ -14,13 +14,11 @@ public interface ArticleMapper {
 
 	ArticleDto read(int articleId);
 
-	List<ArticleDto> readAll(@Param("category")int category, @Param("sort")String sort);
+	List<ArticleDto> readAll(String sort);
 
 	int update(ArticleDto articleDto);
 
 	int delete(int articleId);
-
-	int createNotice(ArticleDto articleDto);
 
 	void updateHit(int articleId);
 

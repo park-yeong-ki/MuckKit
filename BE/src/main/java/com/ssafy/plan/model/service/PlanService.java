@@ -24,32 +24,40 @@ public class PlanService {
 		return mapper.readAll();
 	}
 	
-	public PlanDto select(int plan_id) {
-		return mapper.read(plan_id);
+	public PlanDto select(int planId) {
+		return mapper.read(planId);
 	}
 
-
+	@Transactional
 	public int modify(PlanDto dto) {
+		mapper.deletePlanAttraction(dto.getPlanId());
+		if (dto.getAttractions() != null) {
+			for (AttractionDto aDto : dto.getAttractions()) {
+				mapper.createPlanAttraction(dto.getPlanId(), aDto.getContentId());
+			}	
+		}
 		return mapper.update(dto);
 	}
 
 
-	public int remove(int plan_id) {
-		return mapper.delete(plan_id);
+	public int remove(int planId) {
+		return mapper.delete(planId);
 	}
 
 
-	public void updateHit(int plan_id) {
-		mapper.updateHit(plan_id);
+	public void updateHit(int planId) {
+		mapper.updateHit(planId);
 		
 	}
 
 	@Transactional
 	public int write(PlanDto dto) {
 		int result = mapper.insert(dto);
-		for (AttractionDto aDto : dto.getAttractions()) {
-			mapper.createPlanAttraction(dto.getPlanId(), aDto.getContentId());
-		}	
+		if (dto.getAttractions() != null) {
+			for (AttractionDto aDto : dto.getAttractions()) {
+				mapper.createPlanAttraction(dto.getPlanId(), aDto.getContentId());
+			}	
+		}
 		return result;
 	}
 	

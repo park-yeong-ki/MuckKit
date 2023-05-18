@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.notice.model.mapper.NoticeMapper">
+	<insert id="createNotice"
+		parameterType="com.ssafy.notice.model.dto.NoticeDto">
+		insert into notice( notice_title, notice_content,
+		notice_writer)
+		values( #{noticeTitle},
+		#{noticeContent}, #{noticeWriter});
+	</insert>
+	
+	<select id="read" parameterType="int"
+		resultType="com.ssafy.notice.model.dto.NoticeDto">
+		select notice_id noticeId, notice_title noticeTitle, notice_content noticeContent, created_time createdTime,
+		notice_writer noticeWriter, hit
+		from notice
+		where notice_id = #{noticeId};
+	</select>
+	
+	<select id="readAll"
+		resultType="com.ssafy.notice.model.dto.NoticeDto">
+		select notice_id noticeId, notice_title noticeTitle, notice_content noticeContent, created_time createdTime,
+		notice_writer noticeWriter, hit
+		from notice
+		order by #{sort} desc;
+	</select>
+	
+	<update id="update"
+		parameterType="com.ssafy.notice.model.dto.NoticeDto">
+		update notice
+		set notice_title=#{noticeTitle},
+		notice_content=#{noticeContent}, notice_writer=#{noticeWriter}
+		where notice_id = #{noticeId};
+	</update>
+	
+	<update id="updateHit" parameterType="int">
+		update notice
+		set hit = hit
+		+ 1
+		where notice_id = #{noticeId}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from notice
+		where
+		notice_id = #{noticeId};
+	</delete>
+</mapper>

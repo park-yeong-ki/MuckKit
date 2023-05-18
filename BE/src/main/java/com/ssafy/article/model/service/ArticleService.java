@@ -27,8 +27,8 @@ public class ArticleService {
 	}
 	
 	//게시글 전체 조회(조건 검색)
-	public List<ArticleDto> selectAll(int category, String sort){
-		return mapper.readAll(category, sort);
+	public List<ArticleDto> selectAll(String sort){
+		return mapper.readAll(sort);
 	}
 	
 	//게시글 수정
@@ -39,11 +39,6 @@ public class ArticleService {
 	//게시글 삭제
 	public int remove(int articleId) {
 		return mapper.delete(articleId);
-	}
-
-	// 공지 작성
-	public int writeNotice(ArticleDto articleDto) {
-		return mapper.createNotice(articleDto);
 	}
 
 	public void updateHit(int articleId) {

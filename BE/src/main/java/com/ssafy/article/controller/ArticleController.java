@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.article.model.dto.ArticleDto;
 import com.ssafy.article.model.service.ArticleService;
+import com.ssafy.attraction.model.service.AttractionService;
 import com.ssafy.comment.model.service.CommentService;
 import com.ssafy.member.model.dto.MemberDto;
+import com.ssafy.plan.model.service.PlanService;
 import com.ssafy.security.auth.MemberDetails;
 
 @RestController
@@ -28,10 +30,16 @@ import com.ssafy.security.auth.MemberDetails;
 public class ArticleController {
 	private ArticleService service;
 	private CommentService commentService;
+	private PlanService planService;
+	private AttractionService attractionService;
 
-	public ArticleController(ArticleService service, CommentService commentService) {
+	public ArticleController(ArticleService service, CommentService commentService, PlanService planService,
+			AttractionService attractionService) {
+		super();
 		this.service = service;
 		this.commentService = commentService;
+		this.planService = planService;
+		this.attractionService = attractionService;
 	}
 
 	// 게시글 상세조회
@@ -39,7 +47,9 @@ public class ArticleController {
 	public ResponseEntity<?> read(@PathVariable("article_id") int articleId) {
 		ArticleDto articleDto = service.selectOne(articleId);
 		if (articleDto != null) {
-			articleDto.setComments(commentService.selectComments(articleDto.getArticle_id()));
+			articleDto.setComments(commentService.selectComments(articleDto.getArticleId()));
+			articleDto.setPlan(planService.select(articleDto.getPlanId()));
+			articleDto.getPlan().setAttractions(attractionService.selectByPlanId(articleDto.getPlanId()));
 			service.updateHit(articleId);
 			return new ResponseEntity<>(articleDto, HttpStatus.OK);
 		} else {
@@ -49,17 +59,16 @@ public class ArticleController {
 
 	// 전체조회(공지(=2), 일반 게시글(=1) 카테고리 번호로 구분)
 	@GetMapping
-	public ResponseEntity<?> readList(@RequestParam("category") int category, @RequestParam("sort") String sort) {
-//		List<ArticleDto> boards = ;
+	public ResponseEntity<?> readList(@RequestParam("sort") String sort) {
 		
-		return new ResponseEntity<>(service.selectAll(category, sort), HttpStatus.OK);
+		return new ResponseEntity<>(service.selectAll(sort), HttpStatus.OK);
 	}
 
 	// 게시글 작성
 	@PostMapping("/writeArticle")
 	public ResponseEntity<?> writeArticle(@RequestBody ArticleDto articleDto, @AuthenticationPrincipal MemberDetails memberDetails) {
 		MemberDto loginMember = memberDetails.getMember();
-		if (articleDto.getArticle_writer().equals(loginMember.getMemberId())) {
+		if (articleDto.getArticleWriter().equals(loginMember.getMemberId())) {
 			if (service.writeArticle(articleDto) > 0) {
 				return new ResponseEntity<>(HttpStatus.CREATED);
 			} else {
@@ -70,26 +79,11 @@ public class ArticleController {
 		}	
 	}
 
-	// 공지 작성
-	@PostMapping("/writeNotice")
-	public ResponseEntity<?> writeNotice(@RequestBody ArticleDto articleDto, @AuthenticationPrincipal MemberDetails memberDetails) {
-		MemberDto loginMember = memberDetails.getMember();
-		if (loginMember.getMemberRole().equals("관리자") && articleDto.getArticle_writer().equals(loginMember.getMemberId())) {
-			if (service.writeNotice(articleDto) > 0) {
-				return new ResponseEntity<>(HttpStatus.CREATED);
-			} else {
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			}
-		}else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-	}
-
 	// 게시글 수정
 	@PutMapping("/modify")
 	public ResponseEntity<?> modify(@RequestBody ArticleDto articleDto, @AuthenticationPrincipal MemberDetails memberDetails) {
 		MemberDto loginMember = memberDetails.getMember();
-		if (articleDto.getArticle_writer().equals(loginMember.getMemberId())) {
+		if (articleDto.getArticleWriter().equals(loginMember.getMemberId())) {
 			if (service.modify(articleDto) > 0) {
 				return new ResponseEntity<>(HttpStatus.OK);
 			} else {
@@ -104,7 +98,7 @@ public class ArticleController {
 	@DeleteMapping("/{article_id}")
 	public ResponseEntity<?> remove(@PathVariable("article_id") int articleId, @AuthenticationPrincipal MemberDetails memberDetails) {
 		MemberDto loginMember = memberDetails.getMember();
-		if (service.selectOne(articleId).getArticle_writer().equals(loginMember.getMemberId())) {
+		if (loginMember.getMemberRole().equals("관리자") || service.selectOne(articleId).getArticleWriter().equals(loginMember.getMemberId())) {
 			if (service.remove(articleId) > 0) {
 				return new ResponseEntity<>(HttpStatus.OK);
 			} else {

@@ -8,7 +8,7 @@
 		plan_description as planDescription, hit, count(ph.plan_id) as planHeart
 		from plan p left join plan_heart ph
 		on p.plan_id = ph.plan_id
-		where p.plan_id=#{plan_id}
+		where p.plan_id=#{planId}
 		group by p.plan_id;
 	</select>
 
@@ -25,31 +25,31 @@
 	<update id="update"
 		parameterType="com.ssafy.plan.model.dto.PlanDto">
 		update plan
-		set plan_title=#{plan_title}, start_date=#{start_date},
-		end_date=#{end_date}, plan_description=#{plan_description}
-		where plan_id = plan_id;
+		set plan_title=#{planTitle}, start_date=#{startDate},
+		end_date=#{endDate}, plan_description=#{planDescription}
+		where plan_id =#{planId};
 	</update>
 
 	<update id="updateHit" parameterType="int">
 		update plan
 		set hit = hit
 		+ 1
-		where plan_id = #{plan_id}
+		where plan_id = #{planId}
 	</update>
 
 	<delete id="delete" parameterType="int">
 		delete from plan
 		where
-		plan_id =
-		#{plan_id};
+		plan_id=#{planId};
 	</delete>
 
 	<insert id="insert"
-		parameterType="com.ssafy.plan.model.dto.PlanDto">
+		parameterType="com.ssafy.plan.model.dto.PlanDto" useGeneratedKeys="true"
+        keyProperty="planId" keyColumn="plan_id">
 		insert into plan( member_id, plan_title, start_date,
 		end_date, plan_description)
-		values( #{member_id}, #{plan_title},
-		#{start_date}, #{end_date}, #{plan_description});
+		values( #{memberId}, #{planTitle},
+		#{startDate}, #{endDate}, #{planDescription});
 	</insert>
 
 	<select id="readMyPlan" resultType="com.ssafy.plan.model.dto.PlanDto">
@@ -90,4 +90,9 @@
 		insert into plan_attraction(plan_id, content_id)
 		values(#{planId}, #{contentId});
 	</insert>
+	
+	<delete id="deletePlanAttraction">
+		delete from plan_attraction
+		where plan_id=#{planId};
+	</delete>
 </mapper>

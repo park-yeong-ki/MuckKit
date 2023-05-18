@@ -72,7 +72,7 @@ public class CommentController {
 	@DeleteMapping("/{comment-id}")
 	public ResponseEntity<?> removeComment(@PathVariable("comment-id") int commentId, @AuthenticationPrincipal MemberDetails memberDetails){
 		MemberDto loginMember = memberDetails.getMember();
-		if (loginMember.getMemberId().equals(commentService.selectOne(commentId).getCommentWriter())) {
+		if (loginMember.getMemberRole().equals("관리자") || loginMember.getMemberId().equals(commentService.selectOne(commentId).getCommentWriter())) {
 			if (commentService.remove(commentId) > 0) {
 				return new ResponseEntity<>(HttpStatus.OK);
 			}else {

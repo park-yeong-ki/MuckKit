@@ -13,13 +13,13 @@ public interface PlanMapper {
 
 	List<PlanDto> readAll();
 
-	PlanDto read(int plan_id);
+	PlanDto read(int planId);
 
 	int update(PlanDto dto);
 
-	int delete(int plan_id);
+	int delete(int planId);
 
-	void updateHit(int plan_id);
+	void updateHit(int planId);
 
 	int insert(PlanDto dto);
 
@@ -34,4 +34,6 @@ public interface PlanMapper {
 	int deleteHeart(@Param("memberId")String memberId, @Param("planId")int planId);
 	
 	int createPlanAttraction(@Param("planId")int planId, @Param("contentId")int contentId);
+	
+	int deletePlanAttraction(int planId);
 }
