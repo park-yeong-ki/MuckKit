@@ -95,4 +95,20 @@
 		delete from plan_attraction
 		where plan_id=#{planId};
 	</delete>
+	
+	<insert id="createPlanHashtag">
+		insert into plan_hashtag(plan_id, hashtag_id)
+		values(#{planId}, #{hashtagId});
+	</insert>
+	
+	<delete id="deletePlanHashtag">
+		delete from plan_hashtag
+		where plan_id=#{planId};
+	</delete>
+	
+	<select id="readHashtags" resultType="com.ssafy.hashtag.model.dto.HashtagDto">
+		select hashtag_id hashtagId, tag_name tagName
+		from hashtag
+		where hashtag_id in (select hashtag_id from plan_hashtag where plan_id=#{planId});
+	</select>
 </mapper>

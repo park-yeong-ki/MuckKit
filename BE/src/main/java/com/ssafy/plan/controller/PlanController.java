@@ -22,11 +22,9 @@ import com.ssafy.security.auth.MemberDetails;
 @RequestMapping("plan")
 public class PlanController {
 	private PlanService service;
-	private AttractionService attractionService;
 		
-	public PlanController(PlanService service, AttractionService attractionService) {
+	public PlanController(PlanService service) {
 		this.service = service;
-		this.attractionService = attractionService;
 	}
 
 	// 플랜 전체 조회
@@ -41,7 +39,6 @@ public class PlanController {
 		PlanDto dto = service.select(planId);
 		if(dto != null) {
 			service.updateHit(planId);
-			dto.setAttractions(attractionService.selectByPlanId(planId));
 			return new ResponseEntity<> (dto, HttpStatus.CREATED);
 		}
 		else {

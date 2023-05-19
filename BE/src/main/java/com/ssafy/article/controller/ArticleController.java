@@ -29,17 +29,10 @@ import com.ssafy.security.auth.MemberDetails;
 @RequestMapping("article")
 public class ArticleController {
 	private ArticleService service;
-	private CommentService commentService;
-	private PlanService planService;
-	private AttractionService attractionService;
 
-	public ArticleController(ArticleService service, CommentService commentService, PlanService planService,
-			AttractionService attractionService) {
+	public ArticleController(ArticleService service) {
 		super();
 		this.service = service;
-		this.commentService = commentService;
-		this.planService = planService;
-		this.attractionService = attractionService;
 	}
 
 	// 게시글 상세조회
@@ -47,9 +40,6 @@ public class ArticleController {
 	public ResponseEntity<?> read(@PathVariable("article_id") int articleId) {
 		ArticleDto articleDto = service.selectOne(articleId);
 		if (articleDto != null) {
-			articleDto.setComments(commentService.selectComments(articleDto.getArticleId()));
-			articleDto.setPlan(planService.select(articleDto.getPlanId()));
-			articleDto.getPlan().setAttractions(attractionService.selectByPlanId(articleDto.getPlanId()));
 			service.updateHit(articleId);
 			return new ResponseEntity<>(articleDto, HttpStatus.OK);
 		} else {

@@ -4,6 +4,8 @@ public class HashtagDto {
 	private int hashtagId;
 	private String tagName;
 	
+	public HashtagDto() {}
+	
 	public HashtagDto(int hashtagId, String tagName) {
 		this.hashtagId = hashtagId;
 		this.tagName = tagName;

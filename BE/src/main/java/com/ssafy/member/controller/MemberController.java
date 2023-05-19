@@ -34,18 +34,11 @@ import com.ssafy.security.auth.TokenResponse;
 public class MemberController {
 	private final MemberService memberService;
 	private final JwtProvider jwtProvider;
-	private final ArticleService articleService;
-	private final PlanService planService;
-	private final CommentService commentService;
 
-	public MemberController(MemberService memberService, JwtProvider jwtProvider, ArticleService articleService,
-			PlanService planService, CommentService commentService) {
+	public MemberController(MemberService memberService, JwtProvider jwtProvider) {
 		super();
 		this.memberService = memberService;
 		this.jwtProvider = jwtProvider;
-		this.articleService = articleService;
-		this.planService = planService;
-		this.commentService = commentService;
 	}
 
 	// 회원 정보 가입
@@ -64,11 +57,6 @@ public class MemberController {
 		if (memberDetails.getMember().getMemberId().equals(memberId)) {
 			MemberDto memberDto = memberService.selectOne(memberId);
 			if (memberDto != null) {
-				memberDto.setArticleList(articleService.selectMyArticle(memberId));
-				memberDto.setHeartArticleList(articleService.selectMyHeart(memberId));
-				memberDto.setPlanList(planService.selectMyPlan(memberId));
-				memberDto.setHeartPlanList(planService.selectMyHeart(memberId));
-				memberDto.setCommentsList(commentService.selectMyComments(memberId));
 				return new ResponseEntity<>(memberDto, HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

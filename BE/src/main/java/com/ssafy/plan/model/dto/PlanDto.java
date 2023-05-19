@@ -3,6 +3,7 @@ package com.ssafy.plan.model.dto;
 import java.util.List;
 
 import com.ssafy.attraction.model.dto.AttractionDto;
+import com.ssafy.hashtag.model.dto.HashtagDto;
 
 public class PlanDto {
 	private int planId;
@@ -14,11 +15,13 @@ public class PlanDto {
 	private int hit;
 	private int planHeart;
 	private List<AttractionDto> attractions;
+	private List<HashtagDto> hashtags;
 	
 	public PlanDto() {}
 
 	public PlanDto(int planId, String memberId, String planTitle, String startDate, String endDate,
-			String planDescription, int hit, int planHeart, List<AttractionDto> attractions) {
+			String planDescription, int hit, int planHeart, List<AttractionDto> attractions,
+			List<HashtagDto> hashtags) {
 		super();
 		this.planId = planId;
 		this.memberId = memberId;
@@ -29,6 +32,7 @@ public class PlanDto {
 		this.hit = hit;
 		this.planHeart = planHeart;
 		this.attractions = attractions;
+		this.hashtags = hashtags;
 	}
 
 	public int getPlanId() {
@@ -101,6 +105,13 @@ public class PlanDto {
 
 	public void setAttractions(List<AttractionDto> attractions) {
 		this.attractions = attractions;
+	}
+
+	public List<HashtagDto> getHashtags() {
+		return hashtags;
+	}
+
+	public void setHashtags(List<HashtagDto> hashtags) {
+		this.hashtags = hashtags;
 	}	
-	
 }

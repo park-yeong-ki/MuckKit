@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.ssafy.article.model.dto.ArticleDto;
+import com.ssafy.hashtag.model.dto.HashtagDto;
 import com.ssafy.plan.model.dto.PlanDto;
 
 @Mapper
@@ -36,4 +37,10 @@ public interface PlanMapper {
 	int createPlanAttraction(@Param("planId")int planId, @Param("contentId")int contentId);
 	
 	int deletePlanAttraction(int planId);
+	
+	int createPlanHashtag(@Param("planId") int planId, @Param("hashtagId") int hashtagId);
+	
+	int deletePlanHashtag(int planId);
+	
+	List<HashtagDto> readHashtags(int planId);
 }
