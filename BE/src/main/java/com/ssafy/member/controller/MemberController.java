@@ -113,6 +113,7 @@ public class MemberController {
 	
 	@PostMapping("/join/send-mail")
     public ResponseEntity<?> sendEmail(@RequestBody MemberDto mDto) throws MessagingException, UnsupportedEncodingException {
+		System.out.println(1);
 		MemberDto findMember = memberService.selectOne(mDto.getMemberId());
 		//가입되지 않은 회원인 경우
 		if (findMember == null) {

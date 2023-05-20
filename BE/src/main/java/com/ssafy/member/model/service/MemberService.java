@@ -41,11 +41,14 @@ public class MemberService {
 	@Transactional
 	public MemberDto selectOne(String memberId) {
 		MemberDto findMember = mapper.read(memberId);
-		findMember.setArticleList(articleMapper.readMyArticle(memberId));
-		findMember.setPlanList(planMapper.readMyPlan(memberId));
-		findMember.setHeartArticleList(articleMapper.readMyHeart(memberId));
-		findMember.setHeartPlanList(planMapper.readMyHeart(memberId));
-		findMember.setCommentsList(commentMapper.readMyComments(memberId));
+		if (findMember != null) {
+			findMember.setArticleList(articleMapper.readMyArticle(memberId));
+			findMember.setPlanList(planMapper.readMyPlan(memberId));
+			findMember.setHeartArticleList(articleMapper.readMyHeart(memberId));
+			findMember.setHeartPlanList(planMapper.readMyHeart(memberId));
+			findMember.setCommentsList(commentMapper.readMyComments(memberId));
+		}
+		
 		return findMember;
 	}
 	
