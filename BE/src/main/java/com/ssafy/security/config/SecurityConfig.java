@@ -35,7 +35,7 @@ public class SecurityConfig {
 			.and()
 			.csrf().disable()
 			.authorizeRequests()
-			.antMatchers(HttpMethod.POST,"/member/join", "/member/login", "/member/join/**").permitAll()
+			.antMatchers(HttpMethod.POST,"/member/join", "/member/login", "/member/join/**", "/member/find-password").permitAll()
 			.antMatchers(HttpMethod.GET, "/article/{article_id}", "/article", "/plan/{plan_id}", "/plan", "/attraction", "/attraction/{content-id}").permitAll()
 			.anyRequest().authenticated()
 //			 인증 잠깐 멈춰놓음
