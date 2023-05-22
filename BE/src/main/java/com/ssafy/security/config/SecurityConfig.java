@@ -35,11 +35,11 @@ public class SecurityConfig {
 			.and()
 			.csrf().disable()
 			.authorizeRequests()
-			.antMatchers(HttpMethod.POST,"/member/join", "/member/login", "/member/join/**", "/member/find-password").permitAll()
-			.antMatchers(HttpMethod.GET, "/article/{article_id}", "/article", "/plan/{plan_id}", "/plan", "/attraction", "/attraction/{content-id}").permitAll()
-			.anyRequest().authenticated()
+//			.antMatchers(HttpMethod.POST,"/member/join", "/member/login", "/member/join/**", "/member/find-password", "/notice").permitAll()
+//			.antMatchers(HttpMethod.GET, "/article/{article_id}", "/article", "/plan/{plan_id}", "/plan", "/attraction", "/attraction/{content-id}", "/notice",).permitAll()
+//			.anyRequest().authenticated()
 //			 인증 잠깐 멈춰놓음
-//			.anyRequest().permitAll()
+			.anyRequest().permitAll()
 			.and()
 			.addFilterBefore(new JwtAuthenticationFilter(jwtProvider, memberDetailsService), UsernamePasswordAuthenticationFilter.class);
 			

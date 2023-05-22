@@ -67,4 +67,11 @@ public class NoticeDto {
 	public void setHit(int hit) {
 		this.hit = hit;
 	}
+	@Override
+	public String toString() {
+		return "NoticeDto [noticeId=" + noticeId + ", noticeTitle=" + noticeTitle + ", noticeContent=" + noticeContent
+				+ ", createdTime=" + createdTime + ", noticeWriter=" + noticeWriter + ", hit=" + hit + "]";
+	}
+	
+	
 }

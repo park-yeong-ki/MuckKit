@@ -32,6 +32,7 @@ public class NoticeController {
 	@PostMapping("/writeNotice")
 	public ResponseEntity<?> writeNotice(@RequestBody NoticeDto noticeDto, @AuthenticationPrincipal MemberDetails memberDetails) {
 		MemberDto loginMember = memberDetails.getMember();
+		System.out.println(noticeDto.toString());
 		if (loginMember.getMemberRole().equals("관리자") && noticeDto.getNoticeWriter().equals(loginMember.getMemberId())) {
 			if (service.writeNotice(noticeDto) > 0) {
 				return new ResponseEntity<>(HttpStatus.CREATED);
@@ -44,7 +45,7 @@ public class NoticeController {
 	}
 	
 	// 공지 상세조회
-	@GetMapping("/{notice_id}")
+	@GetMapping("/view/{notice_id}")
 	public ResponseEntity<?> read(@PathVariable("notice_id") int noticeId) {
 		NoticeDto noticeDto = service.selectOne(noticeId);
 		if (noticeDto != null) {
