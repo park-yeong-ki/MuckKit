@@ -17,4 +17,11 @@
 		from hashtag
 		where hashtag_id=#{hashtagId};
 	</delete>
+	
+	<select id="selectTop10" resultType="com.ssafy.hashtag.model.dto.HashtagDto">
+		select h.hashtag_id hashtagId, h.tag_name tagName, count(ph.plan_hashtag_id) count
+		from hashtag h left join plan_hashtag ph on h.hashtag_id=ph.hashtag_id
+        group by h.hashtag_id
+        order by 3 desc limit 10;
+	</select>
 </mapper>

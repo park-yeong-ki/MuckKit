@@ -1,6 +1,8 @@
 package com.ssafy.plan.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,13 +29,17 @@ public class PlanService {
 	}
 
 	@Transactional
-	public List<PlanDto> selectAll() {
+	public Map<String, Object> selectAll() {
 		List<PlanDto> planDtos = mapper.readAll();
 		for (int i = 0; i < planDtos.size(); i++) {
 			planDtos.get(i).setHashtags(mapper.readHashtags(planDtos.get(i).getPlanId()));
 			planDtos.get(i).setAttractions(attractionMapper.readPlanAttraction(planDtos.get(i).getPlanId()));
 		}
-		return planDtos;
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("plans", planDtos);
+		map.put("hashtags", hashtagMapper.selectTop10());
+		return map;
 	}
 	
 	@Transactional

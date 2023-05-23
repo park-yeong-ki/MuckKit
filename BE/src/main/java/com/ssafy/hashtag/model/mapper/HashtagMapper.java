@@ -1,5 +1,7 @@
 package com.ssafy.hashtag.model.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.hashtag.model.dto.HashtagDto;
@@ -11,4 +13,6 @@ public interface HashtagMapper {
 	public HashtagDto selectOne(String tagName);
 	
 	public int deleteHashtag(int hashtagId);
+	
+	public List<HashtagDto> selectTop10();
 }
