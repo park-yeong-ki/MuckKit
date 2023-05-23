@@ -132,4 +132,19 @@ public class PlanService {
 			return mapper.deleteHeart(memberId, planId);
 		}
 	}
+	
+	//해쉬태그별 플랜조회
+	@Transactional
+	public Map<String, Object> selectByHashtag(int hashtagId) {
+		List<PlanDto> planDtos = mapper.readByHashtag(hashtagId);
+		for (int i = 0; i < planDtos.size(); i++) {
+			planDtos.get(i).setHashtags(mapper.readHashtags(planDtos.get(i).getPlanId()));
+			planDtos.get(i).setAttractions(attractionMapper.readPlanAttraction(planDtos.get(i).getPlanId()));
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("plans", planDtos);
+		map.put("hashtags", hashtagMapper.selectTop10());
+		return map;
+	}
 }

@@ -36,7 +36,7 @@ public class ArticleController {
 	}
 
 	// 게시글 상세조회
-	@GetMapping("/{article_id}")
+	@GetMapping("/view/{article_id}")
 	public ResponseEntity<?> read(@PathVariable("article_id") int articleId) {
 		ArticleDto articleDto = service.selectOne(articleId);
 		if (articleDto != null) {

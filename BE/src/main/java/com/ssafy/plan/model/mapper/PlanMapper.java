@@ -43,4 +43,6 @@ public interface PlanMapper {
 	int deletePlanHashtag(int planId);
 	
 	List<HashtagDto> readHashtags(int planId);
+	
+	List<PlanDto> readByHashtag(int hashtagId);
 }

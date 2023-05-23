@@ -111,4 +111,14 @@
 		from hashtag
 		where hashtag_id in (select hashtag_id from plan_hashtag where plan_id=#{planId});
 	</select>
+	
+	<select id="readByHashtag" resultType="com.ssafy.plan.model.dto.PlanDto">
+		select p.plan_id as planId, p.member_id as memberId, plan_title as planTitle, start_date as startDate, end_date as endDate,
+		plan_description as planDescription, hit, count(ph.plan_id) as planHeart
+		from plan p left join plan_heart ph
+		on p.plan_id = ph.plan_id
+		where p.plan_id in (select plan_id from plan_hashtag where hashtag_id=#{hashtagId})
+		group by p.plan_id
+		order by hit DESC;
+	</select>
 </mapper>

@@ -99,4 +99,10 @@ public class PlanController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	//해쉬태그별 플랜 조회
+	@GetMapping("/hashtag/{hashtag-id}")
+	public ResponseEntity<?> readHashtagPlan(@PathVariable("hashtag-id") int hashtagId){
+		return new ResponseEntity<>(service.selectByHashtag(hashtagId), HttpStatus.OK);
+	}
 }
