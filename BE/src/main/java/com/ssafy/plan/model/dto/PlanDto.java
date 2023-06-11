@@ -1,69 +1,117 @@
 package com.ssafy.plan.model.dto;
 
+import java.util.List;
+
+import com.ssafy.attraction.model.dto.AttractionDto;
+import com.ssafy.hashtag.model.dto.HashtagDto;
+
 public class PlanDto {
-	private int plan_id;
-	private String member_id;
-	private String plan_title;
-	private String start_date;
-	private String end_date;
-	private String plan_description;
+	private int planId;
+	private String memberId;
+	private String planTitle;
+	private String startDate;
+	private String endDate;
+	private String planDescription;
 	private int hit;
+	private int planHeart;
+	private List<AttractionDto> attractions;
+	private List<HashtagDto> hashtags;
 	
+	public PlanDto() {}
+
+	public PlanDto(int planId, String memberId, String planTitle, String startDate, String endDate,
+			String planDescription, int hit, int planHeart, List<AttractionDto> attractions,
+			List<HashtagDto> hashtags) {
+		super();
+		this.planId = planId;
+		this.memberId = memberId;
+		this.planTitle = planTitle;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.planDescription = planDescription;
+		this.hit = hit;
+		this.planHeart = planHeart;
+		this.attractions = attractions;
+		this.hashtags = hashtags;
+	}
+
+	public int getPlanId() {
+		return planId;
+	}
+
+	public void setPlanId(int planId) {
+		this.planId = planId;
+	}
+
+	public String getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+
+	public String getPlanTitle() {
+		return planTitle;
+	}
+
+	public void setPlanTitle(String planTitle) {
+		this.planTitle = planTitle;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getPlanDescription() {
+		return planDescription;
+	}
+
+	public void setPlanDescription(String planDescription) {
+		this.planDescription = planDescription;
+	}
+
 	public int getHit() {
 		return hit;
 	}
+
 	public void setHit(int hit) {
 		this.hit = hit;
 	}
-	public int getPlan_id() {
-		return plan_id;
+
+	public int getPlanHeart() {
+		return planHeart;
 	}
-	public void setPlan_id(int plan_id) {
-		this.plan_id = plan_id;
+
+	public void setPlanHeart(int planHeart) {
+		this.planHeart = planHeart;
 	}
-	public String getMember_id() {
-		return member_id;
+
+	public List<AttractionDto> getAttractions() {
+		return attractions;
 	}
-	public void setMember_id(String member_id) {
-		this.member_id = member_id;
+
+	public void setAttractions(List<AttractionDto> attractions) {
+		this.attractions = attractions;
 	}
-	public String getPlan_title() {
-		return plan_title;
+
+	public List<HashtagDto> getHashtags() {
+		return hashtags;
 	}
-	public void setPlan_title(String plan_title) {
-		this.plan_title = plan_title;
-	}
-	public String getStart_date() {
-		return start_date;
-	}
-	public void setStart_date(String start_date) {
-		this.start_date = start_date;
-	}
-	public String getEnd_date() {
-		return end_date;
-	}
-	public void setEnd_date(String end_date) {
-		this.end_date = end_date;
-	}
-	public String getPlan_description() {
-		return plan_description;
-	}
-	public void setPlan_description(String plan_description) {
-		this.plan_description = plan_description;
-	}
-	
-	public PlanDto() {}
-	public PlanDto(int plan_id, String member_id, String plan_title, String start_date, String end_date,
-			String plan_description, int hit) {
-		this.plan_id = plan_id;
-		this.member_id = member_id;
-		this.plan_title = plan_title;
-		this.start_date = start_date;
-		this.end_date = end_date;
-		this.plan_description = plan_description;
-		this.hit = hit;
-	}
-	
-	
-	
+
+	public void setHashtags(List<HashtagDto> hashtags) {
+		this.hashtags = hashtags;
+	}	
 }

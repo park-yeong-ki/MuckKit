@@ -20,8 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ssafy.article.model.service.ArticleService;
+import com.ssafy.comment.model.service.CommentService;
 import com.ssafy.member.model.dto.MemberDto;
 import com.ssafy.member.model.service.MemberService;
+import com.ssafy.plan.model.service.PlanService;
 import com.ssafy.security.auth.JwtProvider;
 import com.ssafy.security.auth.MemberDetails;
 import com.ssafy.security.auth.TokenResponse;
@@ -33,6 +36,7 @@ public class MemberController {
 	private final JwtProvider jwtProvider;
 
 	public MemberController(MemberService memberService, JwtProvider jwtProvider) {
+		super();
 		this.memberService = memberService;
 		this.jwtProvider = jwtProvider;
 	}
@@ -63,10 +67,9 @@ public class MemberController {
 	}
 
 	// 회원 정보 수정
-	@PutMapping("/modify/{member-id}")
-	public ResponseEntity<?> modify(@PathVariable("member-id") String memberId, @RequestBody MemberDto mDto, @AuthenticationPrincipal MemberDetails memberDetails) {
-		if (memberDetails.getMember().getMemberId().equals(memberId)) {
-			mDto.setMemberId(memberId);
+	@PutMapping("/modify")
+	public ResponseEntity<?> modify(@RequestBody MemberDto mDto, @AuthenticationPrincipal MemberDetails memberDetails) {
+		if (memberDetails.getMember().getMemberId().equals(mDto.getMemberId())) {
 			if (memberService.modify(mDto) > 0) {
 				return new ResponseEntity<>(HttpStatus.OK);
 			} else {
@@ -80,7 +83,8 @@ public class MemberController {
 	// 회원 정보 삭제(탈퇴)
 	@DeleteMapping("/{member-id}")
 	public ResponseEntity<?> delete(@PathVariable("member-id") String memberId, @AuthenticationPrincipal MemberDetails memberDetails) {
-		if (memberDetails.getMember().getMemberId().equals(memberId)) {
+		MemberDto loginMember = memberDetails.getMember();
+		if (loginMember.getMemberRole().equals("관리자") || loginMember.getMemberId().equals(memberId)) {
 			if (memberService.delete(memberId) > 0) {
 				return new ResponseEntity<>(HttpStatus.OK);
 			} else {

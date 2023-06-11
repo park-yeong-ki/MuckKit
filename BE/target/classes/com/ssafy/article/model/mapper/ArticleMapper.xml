@@ -2,43 +2,87 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.article.model.mapper.ArticleMapper">
 
-	<insert id="createArticle" parameterType="com.ssafy.article.model.dto.ArticleDto">
-		insert into article( article_title, article_content, article_writer, article_type)
-		values( #{article_title}, #{article_content}, #{article_writer}, 1);
+	<insert id="createArticle"
+		parameterType="com.ssafy.article.model.dto.ArticleDto">
+		insert into article( article_title, article_content,
+		article_writer, plan_id)
+		values( #{articleTitle},
+		#{articleContent}, #{articleWriter}, #{planId});
 	</insert>
-	
-	<insert id="createNotice" parameterType="com.ssafy.article.model.dto.ArticleDto">
-		insert into article( article_title, article_content, article_writer, article_type)
-		values( #{article_title}, #{article_content}, #{article_writer}, 2);
-	</insert>
-	
-	<select id="read" parameterType="int" resultType="com.ssafy.article.model.dto.ArticleDto">
-		select article_id, article_title, article_content, created_time, article_writer, hit
-		from article
-		where article_id = #{article_id};
+
+	<select id="read" parameterType="int"
+		resultType="com.ssafy.article.model.dto.ArticleDto">
+		select a.article_id articleId, article_title articleTitle, article_content articleContent, created_time createdTime,
+		article_writer articleWriter, hit, plan_id planId,count(ah.article_id) as articleHeart
+		from article a left join article_heart ah
+		on a.article_id = ah.article_id
+		where a.article_id = #{articleId}
+		GROUP BY a.article_id;
 	</select>
-	
-	<select id="readAll" resultType="com.ssafy.article.model.dto.ArticleDto">
-		select article_title, article_content, created_time, article_writer, hit
-		from article
-		where article_type=#{category}
-		order by #{sort};
+
+	<select id="readAll"
+		resultType="com.ssafy.article.model.dto.ArticleDto">
+		select a.article_id articleId, article_title articleTitle, article_content articleContent, created_time createdTime,
+		article_writer articleWriter, hit, plan_id planId, count(ah.article_id) as articleHeart
+		from article a left join article_heart ah
+		on a.article_id = ah.article_id
+		GROUP BY a.article_id
+		order by #{sort} desc;
 	</select>
-	
-	<update id="update" parameterType="com.ssafy.article.model.dto.ArticleDto">
+
+	<update id="update"
+		parameterType="com.ssafy.article.model.dto.ArticleDto">
 		update article
-		set article_title=#{article_title}, article_content=#{article_content}, article_writer=#{article_writer}, article_type=#{article_type}
-		where article_id = #{article_id};
+		set article_title=#{articleTitle},
+		article_content=#{articleContent}, article_writer=#{articleWriter},
+		plan_id=#{planId}
+		where article_id = #{articleId};
 	</update>
-	
+
 	<update id="updateHit" parameterType="int">
 		update article
-		set hit = hit + 1
-		where article_id = #{article_id}
+		set hit = hit
+		+ 1
+		where article_id = #{articleId}
 	</update>
-	
+
 	<delete id="delete" parameterType="int">
 		delete from article
-		where article_id = #{article_id};
+		where
+		article_id = #{articleId};
+	</delete>
+	
+	<select id="readMyArticle" resultType="com.ssafy.article.model.dto.ArticleDto">
+		select a.article_id articleId, article_title articleTitle, article_content articleContent, created_time createdTime,
+		article_writer articleWriter, hit, plan_id planId, count(ah.article_id) as articleHeart
+		from article a left join article_heart ah
+		on a.article_id = ah.article_id
+		where a.article_writer = #{memberId}
+		GROUP BY a.article_id;
+	</select>
+	
+	<select id="readMyHeart" resultType="com.ssafy.article.model.dto.ArticleDto">
+		select a.article_id articleId, article_title articleTitle, article_content articleContent, created_time createdTime,
+		article_writer articleWriter, hit, plan_id planId, count(ah.article_id) as articleHeart
+		from article a left join article_heart ah
+		on a.article_id = ah.article_id
+		where a.article_id in (select article_id from article_heart where member_id=#{memberId})
+		GROUP BY a.article_id;
+	</select>
+	
+	<select id="getArticleHeart" resultType="String">
+		select heart_id 
+		from article_heart
+		where member_id=#{memberId} and article_id=#{articleId};
+	</select>
+	
+	<insert id="createHeart">
+		insert into article_heart(member_id, article_id) 
+		values(#{memberId}, #{articleId});
+	</insert>
+	
+	<delete id="deleteHeart">
+		delete from article_heart
+		where member_id=#{memberId} and article_id=#{articleId};
 	</delete>
 </mapper>

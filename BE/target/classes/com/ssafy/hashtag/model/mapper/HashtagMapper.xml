@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.hashtag.model.mapper.HashtagMapper">
+	<insert id="createHashtag" useGeneratedKeys="true" keyProperty="hashtagId" keyColumn="hashtag_id">
+		insert into hashtag(tag_name)
+		values(#{tagName});
+	</insert>
+	
+	<select id="selectOne" resultType="com.ssafy.hashtag.model.dto.HashtagDto">
+		select hashtag_id hashtagId, tag_name tagName
+		from hashtag
+		where tag_name=#{tagName};
+	</select>
+	
+	<delete id="deleteHashtag">
+		delete 
+		from hashtag
+		where hashtag_id=#{hashtagId};
+	</delete>
+	
+	<select id="selectTop10" resultType="com.ssafy.hashtag.model.dto.HashtagDto">
+		select h.hashtag_id hashtagId, h.tag_name tagName, count(ph.plan_hashtag_id) count
+		from hashtag h left join plan_hashtag ph on h.hashtag_id=ph.hashtag_id
+        group by h.hashtag_id
+        order by 3 desc limit 10;
+	</select>
+</mapper>

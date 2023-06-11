@@ -1,26 +1,79 @@
 package com.ssafy.article.model.dto;
 
+import java.util.List;
+
+import com.ssafy.comment.model.dto.CommentDto;
+import com.ssafy.plan.model.dto.PlanDto;
+
 public class ArticleDto {
-	private int article_id;
-	private String article_title;
-	private String article_content;
-	private String created_time;
-	private String article_writer;
-	private int article_type;
+	private int articleId;
+	private String articleTitle;
+	private String articleContent;
+	private String createdTime;
+	private String articleWriter;
 	private int hit;
+	private int planId;
+	private int articleHeart;
+	private List<CommentDto> comments;
+	private PlanDto plan;
 	
 	public ArticleDto() {}
-	
-	public ArticleDto(int article_id, String article_title, String article_content, String created_time,
-			String article_writer, int article_type, int hit) {
-		this.article_id = article_id;
-		this.article_title = article_title;
-		this.article_content = article_content;
-		this.created_time = created_time;
-		this.article_writer = article_writer;
-		this.article_type = article_type;
+
+	public ArticleDto(int articleId, String articleTitle, String articleContent, String createdTime,
+			String articleWriter, int hit, int planId, int articleHeart, List<CommentDto> comments, PlanDto plan) {
+		super();
+		this.articleId = articleId;
+		this.articleTitle = articleTitle;
+		this.articleContent = articleContent;
+		this.createdTime = createdTime;
+		this.articleWriter = articleWriter;
+		this.hit = hit;
+		this.planId = planId;
+		this.articleHeart = articleHeart;
+		this.comments = comments;
+		this.plan = plan;
 	}
-	
+
+	public int getArticleId() {
+		return articleId;
+	}
+
+	public void setArticleId(int articleId) {
+		this.articleId = articleId;
+	}
+
+	public String getArticleTitle() {
+		return articleTitle;
+	}
+
+	public void setArticleTitle(String articleTitle) {
+		this.articleTitle = articleTitle;
+	}
+
+	public String getArticleContent() {
+		return articleContent;
+	}
+
+	public void setArticleContent(String articleContent) {
+		this.articleContent = articleContent;
+	}
+
+	public String getCreatedTime() {
+		return createdTime;
+	}
+
+	public void setCreatedTime(String createdTime) {
+		this.createdTime = createdTime;
+	}
+
+	public String getArticleWriter() {
+		return articleWriter;
+	}
+
+	public void setArticleWriter(String articleWriter) {
+		this.articleWriter = articleWriter;
+	}
+
 	public int getHit() {
 		return hit;
 	}
@@ -29,54 +82,35 @@ public class ArticleDto {
 		this.hit = hit;
 	}
 
-
-	public int getArticle_id() {
-		return article_id;
+	public int getPlanId() {
+		return planId;
 	}
 
-	public void setArticle_id(int article_id) {
-		this.article_id = article_id;
+	public void setPlanId(int planId) {
+		this.planId = planId;
 	}
 
-	public String getArticle_title() {
-		return article_title;
+	public int getArticleHeart() {
+		return articleHeart;
 	}
 
-	public void setArticle_title(String article_title) {
-		this.article_title = article_title;
+	public void setArticleHeart(int articleHeart) {
+		this.articleHeart = articleHeart;
 	}
 
-	public String getArticle_content() {
-		return article_content;
+	public List<CommentDto> getComments() {
+		return comments;
 	}
 
-	public void setArticle_content(String article_content) {
-		this.article_content = article_content;
+	public void setComments(List<CommentDto> comments) {
+		this.comments = comments;
 	}
 
-	public String getCreated_time() {
-		return created_time;
+	public PlanDto getPlan() {
+		return plan;
 	}
 
-	public void setCreated_time(String created_time) {
-		this.created_time = created_time;
+	public void setPlan(PlanDto plan) {
+		this.plan = plan;
 	}
-
-	public String getArticle_writer() {
-		return article_writer;
-	}
-
-	public void setArticle_writer(String article_writer) {
-		this.article_writer = article_writer;
-	}
-
-	public int getArticle_type() {
-		return article_type;
-	}
-
-	public void setArticle_type(int article_type) {
-		this.article_type = article_type;
-	}
-	
-	
 }

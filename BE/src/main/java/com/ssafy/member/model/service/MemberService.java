@@ -7,18 +7,32 @@ import javax.mail.MessagingException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.article.model.mapper.ArticleMapper;
+import com.ssafy.attraction.model.mapper.AttractionMapper;
+import com.ssafy.comment.model.mapper.CommentMapper;
 import com.ssafy.email.EmailService;
 import com.ssafy.member.model.dto.MemberDto;
 import com.ssafy.member.model.mapper.MemberMapper;
+import com.ssafy.plan.model.mapper.PlanMapper;
 
 @Service
 public class MemberService {
 	private final MemberMapper mapper;
 	private final EmailService emailService;
+	private final ArticleMapper articleMapper;
+	private final PlanMapper planMapper;
+	private final CommentMapper commentMapper;
+	private final AttractionMapper attractionMapper;
 
-	public MemberService(MemberMapper mapper, EmailService emailService) {
+	public MemberService(MemberMapper mapper, EmailService emailService, ArticleMapper articleMapper,
+			PlanMapper planMapper, CommentMapper commentMapper, AttractionMapper attractionMapper) {
+		super();
 		this.mapper = mapper;
 		this.emailService = emailService;
+		this.articleMapper = articleMapper;
+		this.planMapper = planMapper;
+		this.commentMapper = commentMapper;
+		this.attractionMapper = attractionMapper;
 	}
 
 	//회원 정보 가입
@@ -27,8 +41,25 @@ public class MemberService {
 	}
 	
 	//회원 정보 조회
+	@Transactional
 	public MemberDto selectOne(String memberId) {
-		return mapper.read(memberId);
+		MemberDto findMember = mapper.read(memberId);
+		if (findMember != null) {
+			findMember.setArticleList(articleMapper.readMyArticle(memberId));
+			findMember.setPlanList(planMapper.readMyPlan(memberId));
+			for (int i = 0; i < findMember.getPlanList().size(); i++) {
+				findMember.getPlanList().get(i).setAttractions(attractionMapper.readPlanAttraction(findMember.getPlanList().get(i).getPlanId()));
+			}
+			findMember.setHeartArticleList(articleMapper.readMyHeart(memberId));
+			
+			findMember.setHeartPlanList(planMapper.readMyHeart(memberId));
+			for (int i = 0; i < findMember.getHeartPlanList().size(); i++) {
+				findMember.getHeartPlanList().get(i).setAttractions(attractionMapper.readPlanAttraction(findMember.getHeartPlanList().get(i).getPlanId()));
+			}
+			findMember.setCommentsList(commentMapper.readMyComments(memberId));
+		}
+		
+		return findMember;
 	}
 	
 	//회원 정보 수정

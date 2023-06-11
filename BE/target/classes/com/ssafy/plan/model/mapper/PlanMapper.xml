@@ -4,49 +4,121 @@
 
 	<select id="read" parameterType="int"
 		resultType="com.ssafy.plan.model.dto.PlanDto">
-		select member_id, plan_title, start_date, end_date,
-		plan_description, hit
-		from plan 
-		where plan_id=#{plan_id};
+		select p.plan_id as planId, p.member_id as memberId, plan_title as planTitle, start_date as startDate, end_date as endDate,
+		plan_description as planDescription, hit, count(ph.plan_id) as planHeart
+		from plan p left join plan_heart ph
+		on p.plan_id = ph.plan_id
+		where p.plan_id=#{planId}
+		group by p.plan_id;
 	</select>
 
 	<select id="readAll"
 		resultType="com.ssafy.plan.model.dto.PlanDto">
-		select member_id, plan_title, start_date, end_date,
-		plan_description, hit
-		from plan
+		select p.plan_id as planId, p.member_id as memberId, plan_title as planTitle, start_date as startDate, end_date as endDate,
+		plan_description as planDescription, hit, count(ph.plan_id) as planHeart
+		from plan p left join plan_heart ph
+		on p.plan_id = ph.plan_id
+		group by p.plan_id
 		order by hit DESC;
 	</select>
-
 
 	<update id="update"
 		parameterType="com.ssafy.plan.model.dto.PlanDto">
 		update plan
-		set plan_title=#{plan_title}, start_date=#{start_date},
-		end_date=#{end_date}, plan_description=#{plan_description}
-		where plan_id = plan_id;
+		set plan_title=#{planTitle}, start_date=#{startDate},
+		end_date=#{endDate}, plan_description=#{planDescription}
+		where plan_id =#{planId};
 	</update>
 
 	<update id="updateHit" parameterType="int">
 		update plan
 		set hit = hit
 		+ 1
-		where plan_id = #{plan_id}
+		where plan_id = #{planId}
 	</update>
 
 	<delete id="delete" parameterType="int">
 		delete from plan
 		where
-		plan_id =
-		#{plan_id};
+		plan_id=#{planId};
 	</delete>
 
 	<insert id="insert"
-		parameterType="com.ssafy.plan.model.dto.PlanDto">
+		parameterType="com.ssafy.plan.model.dto.PlanDto" useGeneratedKeys="true"
+        keyProperty="planId" keyColumn="plan_id">
 		insert into plan( member_id, plan_title, start_date,
 		end_date, plan_description)
-		values( #{member_id}, #{plan_title},
-		#{start_date}, #{end_date}, #{plan_description});
+		values( #{memberId}, #{planTitle},
+		#{startDate}, #{endDate}, #{planDescription});
 	</insert>
 
+	<select id="readMyPlan" resultType="com.ssafy.plan.model.dto.PlanDto">
+		select p.plan_id as planId, p.member_id as memberId, plan_title as planTitle, start_date as startDate, end_date as endDate,
+		plan_description as planDescription, hit, count(ph.plan_id) as planHeart
+		from plan p left join plan_heart ph
+		on p.plan_id = ph.plan_id
+		where p.member_id=#{memberId}
+		group by p.plan_id;
+	</select>
+	
+	<select id="readMyHeart" resultType="com.ssafy.plan.model.dto.PlanDto">
+		select p.plan_id as planId, p.member_id as memberId, plan_title as planTitle, start_date as startDate, end_date as endDate,
+		plan_description as planDescription, hit, count(ph.plan_id) as planHeart
+		from plan p left join plan_heart ph
+		on p.plan_id = ph.plan_id
+		where p.plan_id in (select plan_id from plan_heart where member_id=#{memberId})
+		group by p.plan_id;
+	</select>
+	
+	<select id="getPlanHeart" resultType="String">
+		select heart_id 
+		from plan_heart
+		where member_id=#{memberId} and plan_id=#{planId};
+	</select>
+	
+	<insert id="createHeart">
+		insert into plan_heart(member_id, plan_id) 
+		values(#{memberId}, #{planId});
+	</insert>
+	
+	<delete id="deleteHeart">
+		delete from plan_heart
+		where member_id=#{memberId} and plan_id=#{planId};
+	</delete>
+	
+	<insert id="createPlanAttraction">
+		insert into plan_attraction(plan_id, content_id)
+		values(#{planId}, #{contentId});
+	</insert>
+	
+	<delete id="deletePlanAttraction">
+		delete from plan_attraction
+		where plan_id=#{planId};
+	</delete>
+	
+	<insert id="createPlanHashtag">
+		insert into plan_hashtag(plan_id, hashtag_id)
+		values(#{planId}, #{hashtagId});
+	</insert>
+	
+	<delete id="deletePlanHashtag">
+		delete from plan_hashtag
+		where plan_id=#{planId};
+	</delete>
+	
+	<select id="readHashtags" resultType="com.ssafy.hashtag.model.dto.HashtagDto">
+		select hashtag_id hashtagId, tag_name tagName
+		from hashtag
+		where hashtag_id in (select hashtag_id from plan_hashtag where plan_id=#{planId});
+	</select>
+	
+	<select id="readByHashtag" resultType="com.ssafy.plan.model.dto.PlanDto">
+		select p.plan_id as planId, p.member_id as memberId, plan_title as planTitle, start_date as startDate, end_date as endDate,
+		plan_description as planDescription, hit, count(ph.plan_id) as planHeart
+		from plan p left join plan_heart ph
+		on p.plan_id = ph.plan_id
+		where p.plan_id in (select plan_id from plan_hashtag where hashtag_id=#{hashtagId})
+		group by p.plan_id
+		order by hit DESC;
+	</select>
 </mapper>
