@@ -57,9 +57,9 @@ Vue.js / JavaScript / Bootstrap-vue
 <br>
   
 ### 2) 플랜 공유 게시판
-![플랜 리스트.png](readme_img/플랜 리스트.png)
-![플랜 작성2.png](readme_img/플랜 작성2.png)
-![플랜 작성3.png](readme_img/플랜 작성3.png)
+![플랜_리스트.png](readme_img/플랜_리스트.png)
+![플랜_작성2.png](readme_img/플랜_작성2.png)
+![플랜_작성3.png](readme_img/플랜_작성3.png)
 
 <hr>
 
@@ -72,9 +72,9 @@ Vue.js / JavaScript / Bootstrap-vue
 <br>
 
 ### 3) 여행 후기 게시판
-![여행 후기 리스트.png](readme_img/여행 후기 리스트.png)
-![여행 후기 상세보기1.png](readme_img/여행 후기 상세보기1.png)
-![여행 후기 상세보기2.png](readme_img/여행 후기 상세보기2.png)
+![여행_후기_리스트.png](readme_img/여행_후기_리스트.png)
+![여행_후기_상세보기1.png](readme_img/여행_후기_상세보기1.png)
+![여행_후기_상세보기2.png](readme_img/여행_후기_상세보기2.png)
 <hr>
 
 - 유저들의 후기를 통해 여행지에 대한 정보 공유
